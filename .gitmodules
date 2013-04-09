@@ -1,0 +1,6 @@
+[submodule "Example/Vendor/Specta"]
+	path = Example/Vendor/Specta
+	url = https://github.com/petejkim/specta.git
+[submodule "Example/Vendor/Expecta"]
+	path = Example/Vendor/Expecta
+	url = https://github.com/petejkim/expecta.git

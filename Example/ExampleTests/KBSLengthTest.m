@@ -13,12 +13,18 @@ SpecBegin(LengthSpec)
 describe(@"postLengthForText", ^{
     it(@"should return the correct length minus URL", ^{
         NSString *post = @"This is a string with a [url](https://github.com/)";
-        expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(27);
+
+        [[KSADNPostParser shared] postLengthForText:post withBlock:^(NSUInteger length) {
+            expect(length).to.equal(27);
+        }];
     });
     
     it(@"should return the same length for posts without markdown URLs", ^{
         NSString *post = @"This is a post";
-        expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(14);
+
+        [[KSADNPostParser shared] postLengthForText:post withBlock:^(NSUInteger length) {
+            expect(length).to.equal(14);
+        }];
     });
 });
 

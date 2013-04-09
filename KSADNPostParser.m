@@ -27,6 +27,7 @@
  
  */
 static NSString *regexString = @"\\[([^@#\\.\\]]+)\\]\\(\\S+(?=\\))\\)";
+static NSString *invalidRegx = @"\\[([^\\]]+)\\]\\(\\S+(?=\\))\\)";
 static NSString *errorDomain = @"com.keithsmiley.KSADNPostParser";
 
 typedef NS_ENUM(NSInteger, KSADNPostParserError) {
@@ -105,6 +106,13 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                 if (matches < 1) {
                     // Handle error
                     errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
+                    numberOfErrors++;
+                }
+                
+                // TODO: Fix this
+                matches = [self.dataDetector numberOfMatchesInString:title options:0 range:NSMakeRange(0, [title length])];
+                if (matches < 1) {
+                    errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", title, NSLocalizedString(@"Usernames, hashtags and URLs are invalid in the link's title", nil)];
                     numberOfErrors++;
                 }
 

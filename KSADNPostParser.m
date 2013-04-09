@@ -29,6 +29,11 @@
 static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
 
 
+@interface KSADNPostParser ()
+@property (nonatomic, strong) NSDataDetector *dataDetector;
+@property (nonatomic, strong) NSRegularExpression *regex;
+@end
+
 @implementation KSADNPostParser
 
 + (KSADNPostParser *)shared
@@ -40,6 +45,19 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     });
     
     return shared;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+
+    self.dataDetector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:nil];
+    self.regex = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:nil];
+    
+    return self;
 }
 
 - (NSDictionary *)postDictionaryForText:(NSString *)text
@@ -80,20 +98,15 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
             }
         }
         
-        NSError *dataDetectorError = nil;
-        NSDataDetector *dataDetector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:&dataDetectorError];
-        if (dataDetectorError) {
-            NSLog(@"Sail: Failed to create data detector with error %@, continuing", dataDetectorError);
-        } else {
-            NSArray *matches = [dataDetector matchesInString:postText options:0 range:NSMakeRange(0, [postText length])];
-            for (NSTextCheckingResult *result in matches)
-            {
-                NSRange linkRange = result.range;
-                NSString *urlString = [postText substringWithRange:linkRange];
-                [links addObject:[self linkDictionaryWithPosition:linkRange.location
-                                                           length:linkRange.length
-                                                           andURL:urlString]];
-            }
+
+        NSArray *matches = [self.dataDetector matchesInString:postText options:0 range:NSMakeRange(0, [postText length])];
+        for (NSTextCheckingResult *result in matches)
+        {
+            NSRange linkRange = result.range;
+            NSString *urlString = [postText substringWithRange:linkRange];
+            [links addObject:[self linkDictionaryWithPosition:linkRange.location
+                                                       length:linkRange.length
+                                                       andURL:urlString]];
         }
     }
 
@@ -169,20 +182,12 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
 
 - (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text
 {
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString
-                                                                           options:0
-                                                                             error:nil];
-    
-    return [regex numberOfMatchesInString:text options:0 range:NSMakeRange(0, [text length])];
+    return [self.regex numberOfMatchesInString:text options:0 range:NSMakeRange(0, [text length])];
 }
 
 - (NSValue *)rangeOfFirstMarkdownString:(NSString *)text
 {
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString
-                                                                           options:0
-                                                                             error:nil];
-    
-    NSTextCheckingResult *match = [regex firstMatchInString:text options:0 range:NSMakeRange(0, [text length])];
+    NSTextCheckingResult *match = [self.regex firstMatchInString:text options:0 range:NSMakeRange(0, [text length])];
     if (match) {
         return [NSValue valueWithRange:[match range]];
     }
@@ -192,12 +197,8 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
 
 - (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text
 {
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString
-                                                                           options:0
-                                                                             error:nil];
-    
     NSMutableArray *ranges = [NSMutableArray array];
-    NSArray *matches = [regex matchesInString:text options:0 range:NSMakeRange(0, [text length])];
+    NSArray *matches = [self.regex matchesInString:text options:0 range:NSMakeRange(0, [text length])];
     for (NSTextCheckingResult *result in matches)
     {
         [ranges addObject:[NSValue valueWithRange:result.range]];

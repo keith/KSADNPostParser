@@ -24,6 +24,7 @@
 		C201098117146ABB009D4E58 /* KBSPostDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C201098017146ABB009D4E58 /* KBSPostDictionaryTest.m */; };
 		C201098417146BF1009D4E58 /* KSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C201098317146BF1009D4E58 /* KSConstants.m */; };
 		C201098517146BF1009D4E58 /* KSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C201098317146BF1009D4E58 /* KSConstants.m */; };
+		C2010989171470E0009D4E58 /* KBSContainsMarkdownURLTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2010987171470E0009D4E58 /* KBSContainsMarkdownURLTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		C201098017146ABB009D4E58 /* KBSPostDictionaryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSPostDictionaryTest.m; sourceTree = "<group>"; };
 		C201098217146BF1009D4E58 /* KSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSConstants.h; sourceTree = "<group>"; };
 		C201098317146BF1009D4E58 /* KSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSConstants.m; sourceTree = "<group>"; };
+		C2010987171470E0009D4E58 /* KBSContainsMarkdownURLTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSContainsMarkdownURLTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				C201097C17146A77009D4E58 /* KBSCommon.h */,
+				C2010987171470E0009D4E58 /* KBSContainsMarkdownURLTest.m */,
 				C201098017146ABB009D4E58 /* KBSPostDictionaryTest.m */,
 				C2010942171463AB009D4E58 /* KBSLengthTest.m */,
 				C20108361714616F009D4E58 /* Supporting Files */,
@@ -408,6 +411,7 @@
 				C20109471714642A009D4E58 /* KSADNPostParser.m in Sources */,
 				C201098117146ABB009D4E58 /* KBSPostDictionaryTest.m in Sources */,
 				C201098517146BF1009D4E58 /* KSConstants.m in Sources */,
+				C2010989171470E0009D4E58 /* KBSContainsMarkdownURLTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

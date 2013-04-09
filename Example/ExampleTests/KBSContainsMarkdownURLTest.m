@@ -42,7 +42,7 @@ describe(@"containsMarkdownURL", ^{
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
     });
     
-    it(@"should not allow invalid characters in the anchor text", ^{
+    pending(@"should not allow invalid characters in the anchor text", ^{
         NSString *post = @"[@keith](http://google.com)";
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
         

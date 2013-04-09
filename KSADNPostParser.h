@@ -33,7 +33,7 @@
         have to deal with that elsewhere
     You still need to put the user's access token as an HTTP header field
  */
-+ (NSDictionary *)postDictionaryForText:(NSString *)text;
+- (NSDictionary *)postDictionaryForText:(NSString *)text;
 
 /*
  Parameter: NSString, the post text
@@ -42,7 +42,7 @@
     Returns the length of the given text after embedding the
         Markdown formatted links
  */
-+ (NSUInteger)postLengthForText:(NSString *)text;
+- (NSUInteger)postLengthForText:(NSString *)text;
 
 
 /*
@@ -61,7 +61,7 @@
             the string was formatted correctly.
         String MUST be in the format [anchor](url)
  */
-+ (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown;
+- (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown;
 
 
 /*
@@ -77,7 +77,7 @@
         It checks that the first and last characters are [ and ) respectively
         It checks that ] and ( are also in the string
  */
-+ (BOOL)possibleValidString:(NSString *)text;
+- (BOOL)possibleValidString:(NSString *)text;
 
 
 /*
@@ -89,7 +89,7 @@
     true if a valid Markdown string is found
     false if no Markdown url formatted string is found
  */
-+ (BOOL)containsMarkdownURL:(NSString *)text;
+- (BOOL)containsMarkdownURL:(NSString *)text;
 
 
 /*
@@ -100,7 +100,7 @@
  Return: NSUInteger
     returns the number of valid Markdown formatted URLs in the string
  */
-+ (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text;
+- (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text;
 
 
 /*
@@ -114,7 +114,7 @@
     if there is no Markdown formatted string it returns nil
  
  */
-+ (NSValue *)rangeOfFirstMarkdownString:(NSString *)text;
+- (NSValue *)rangeOfFirstMarkdownString:(NSString *)text;
 
 
 /*
@@ -130,6 +130,6 @@
     I you attept to loop through this while replacing the text in the string
         watch out for changing ranges
  */
-+ (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text;
+- (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text;
 
 @end

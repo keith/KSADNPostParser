@@ -42,7 +42,7 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return shared;
 }
 
-+ (NSDictionary *)postDictionaryForText:(NSString *)text
+- (NSDictionary *)postDictionaryForText:(NSString *)text
 {
     if (text.length < 1) {
         return @{};
@@ -107,14 +107,14 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return dictionary;
 }
 
-+ (NSDictionary *)linkDictionaryWithPosition:(NSUInteger)position length:(NSUInteger)length andURL:(NSString *)url
+- (NSDictionary *)linkDictionaryWithPosition:(NSUInteger)position length:(NSUInteger)length andURL:(NSString *)url
 {
     return @{POSITION_KEY: [NSNumber numberWithUnsignedInteger:position],
              LENGTH_KEY: [NSNumber numberWithUnsignedInteger:length],
              URL_KEY: url};
 }
 
-+ (NSUInteger)postLengthForText:(NSString *)text
+- (NSUInteger)postLengthForText:(NSString *)text
 {
     if (![self containsMarkdownURL:text]) {
         return text.length;
@@ -124,7 +124,7 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return [[dictionary valueForKey:TEXT_KEY] length];
 }
 
-+ (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown
+- (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown
 {
     if (![self possibleValidString:markdown]) {
         return @[];
@@ -148,7 +148,7 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
 }
 
 // Loosely checks that the string is of the valid format [title](URL)
-+ (BOOL)possibleValidString:(NSString *)text
+- (BOOL)possibleValidString:(NSString *)text
 {
     text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if ([text characterAtIndex:0] != '[' ||
@@ -162,12 +162,12 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return true;
 }
 
-+ (BOOL)containsMarkdownURL:(NSString *)text
+- (BOOL)containsMarkdownURL:(NSString *)text
 {
     return [self numberOfMarkdownURLsInString:text] > 0;
 }
 
-+ (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text
+- (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString
                                                                            options:0
@@ -176,7 +176,7 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return [regex numberOfMatchesInString:text options:0 range:NSMakeRange(0, [text length])];
 }
 
-+ (NSValue *)rangeOfFirstMarkdownString:(NSString *)text
+- (NSValue *)rangeOfFirstMarkdownString:(NSString *)text
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString
                                                                            options:0
@@ -190,7 +190,7 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return nil;
 }
 
-+ (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text
+- (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString
                                                                            options:0

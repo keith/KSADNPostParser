@@ -60,6 +60,8 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
     return self;
 }
 
+#pragma mark
+
 - (NSDictionary *)postDictionaryForText:(NSString *)text
 {
     if (text.length < 1) {

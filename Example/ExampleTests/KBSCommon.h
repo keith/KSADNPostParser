@@ -7,6 +7,8 @@
 //
 
 #import "KSADNPostParser.h"
+#import "KSConstants.h"
+
 #import "Specta.h"
 #define EXP_SHORTHAND
 #import "Expecta.h"

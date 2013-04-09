@@ -7,12 +7,23 @@
 //
 
 #import "KBSAppDelegate.h"
+#import "KSADNPostParser.h"
 
 @implementation KBSAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    NSString *post = @"[wikipedia](http://en.wikipedia.org/wiki/Monad(functional_programming)";
+    if ([[KSADNPostParser shared] containsMarkdownURL:post]) {
+        NSLog(@"a");
+    } else {
+        NSLog(@"B");
+    }
+    
+    post = @"[wikipedia](sometext) abc [stuff](invalid)";
+    [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+        [[NSAlert alertWithError:error] runModal];
+    }];
 }
 
 @end

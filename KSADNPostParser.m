@@ -16,17 +16,17 @@
  
  \[         # Literal opening bracket
     (        # Capture what we find in here
-        [^@^#^\]]+ # One or more characters other than close bracket or a username or hashtag
+        [^@#\.\]]+ # One or more characters other than close bracket or a username or hashtag
     )        # Stop capturing
  \]         # Literal closing bracket
  \(         # Literal opening parenthesis
     (        # Capture what we find in here
-        [^)]+  # One or more characters other than close parenthesis
+        \S+(?=\))  # Find as many non-whitespace-characters but ensure that there is a ) afterwards
     )        # Stop capturing
  \)         # Literal closing parenthesis
  
  */
-static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(\\S+(?=\\))\\)";
+static NSString *regexString = @"\\[([^@#\\.\\]]+)\\]\\(\\S+(?=\\))\\)";
 static NSString *errorDomain = @"com.keithsmiley.KSADNPostParser";
 
 typedef NS_ENUM(NSInteger, KSADNPostParserError) {

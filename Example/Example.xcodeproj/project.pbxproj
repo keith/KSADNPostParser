@@ -16,7 +16,11 @@
 		C20108311714616F009D4E58 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20108301714616F009D4E58 /* SenTestingKit.framework */; };
 		C20108321714616F009D4E58 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C20108121714616E009D4E58 /* Cocoa.framework */; };
 		C201083A1714616F009D4E58 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C20108381714616F009D4E58 /* InfoPlist.strings */; };
-		C201083D1714616F009D4E58 /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C201083C1714616F009D4E58 /* ExampleTests.m */; };
+		C2010943171463AB009D4E58 /* KBSLengthTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2010942171463AB009D4E58 /* KBSLengthTest.m */; };
+		C20109461714642A009D4E58 /* KSADNPostParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20109451714642A009D4E58 /* KSADNPostParser.m */; };
+		C20109471714642A009D4E58 /* KSADNPostParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20109451714642A009D4E58 /* KSADNPostParser.m */; };
+		C201094A17146579009D4E58 /* KSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C201094917146579009D4E58 /* KSConstants.m */; };
+		C201094B17146579009D4E58 /* KSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C201094917146579009D4E58 /* KSConstants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +51,11 @@
 		C20108301714616F009D4E58 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		C20108371714616F009D4E58 /* ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		C20108391714616F009D4E58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C201083B1714616F009D4E58 /* ExampleTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExampleTests.h; sourceTree = "<group>"; };
-		C201083C1714616F009D4E58 /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
+		C2010942171463AB009D4E58 /* KBSLengthTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSLengthTest.m; sourceTree = "<group>"; };
+		C20109441714642A009D4E58 /* KSADNPostParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSADNPostParser.h; path = ../../KSADNPostParser.h; sourceTree = "<group>"; };
+		C20109451714642A009D4E58 /* KSADNPostParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSADNPostParser.m; path = ../../KSADNPostParser.m; sourceTree = "<group>"; };
+		C201094817146579009D4E58 /* KSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSConstants.h; path = ../../../../Git/SailOSX/Sail/KSConstants.h; sourceTree = "<group>"; };
+		C201094917146579009D4E58 /* KSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSConstants.m; path = ../../../../Git/SailOSX/Sail/KSConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +124,11 @@
 				C20108241714616F009D4E58 /* KBSAppDelegate.h */,
 				C20108251714616F009D4E58 /* KBSAppDelegate.m */,
 				C20108271714616F009D4E58 /* MainMenu.xib */,
+				C201094817146579009D4E58 /* KSConstants.h */,
+				C201094917146579009D4E58 /* KSConstants.m */,
+				C20109441714642A009D4E58 /* KSADNPostParser.h */,
+				C20109451714642A009D4E58 /* KSADNPostParser.m */,
+				C20108461714628C009D4E58 /* Vendor */,
 				C20108191714616E009D4E58 /* Supporting Files */,
 			);
 			path = Example;
@@ -137,8 +149,7 @@
 		C20108351714616F009D4E58 /* ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
-				C201083B1714616F009D4E58 /* ExampleTests.h */,
-				C201083C1714616F009D4E58 /* ExampleTests.m */,
+				C2010942171463AB009D4E58 /* KBSLengthTest.m */,
 				C20108361714616F009D4E58 /* Supporting Files */,
 			);
 			path = ExampleTests;
@@ -151,6 +162,13 @@
 				C20108381714616F009D4E58 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C20108461714628C009D4E58 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +282,8 @@
 			files = (
 				C201081F1714616E009D4E58 /* main.m in Sources */,
 				C20108261714616F009D4E58 /* KBSAppDelegate.m in Sources */,
+				C20109461714642A009D4E58 /* KSADNPostParser.m in Sources */,
+				C201094A17146579009D4E58 /* KSConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +291,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C201083D1714616F009D4E58 /* ExampleTests.m in Sources */,
+				C2010943171463AB009D4E58 /* KBSLengthTest.m in Sources */,
+				C20109471714642A009D4E58 /* KSADNPostParser.m in Sources */,
+				C201094B17146579009D4E58 /* KSConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +435,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "ExampleTests/ExampleTests-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -428,6 +451,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "ExampleTests/ExampleTests-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -453,6 +477,7 @@
 				C20108421714616F009D4E58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C20108431714616F009D4E58 /* Build configuration list for PBXNativeTarget "ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -461,6 +486,7 @@
 				C20108451714616F009D4E58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

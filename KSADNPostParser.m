@@ -26,8 +26,8 @@
  \)         # Literal closing parenthesis
  
  */
-static NSString *regexString = @"\\[([^@#\\.\\]]+)\\]\\(\\S+(?=\\))\\)";
-static NSString *invalidRegx = @"\\[([^\\]]+)\\]\\(\\S+(?=\\))\\)";
+//static NSString *regexString = @"\\[([^@#\\.\\]]+)\\]\\(\\S+(?=\\))\\)";
+static NSString *regexString = @"\\[([^\\]]+)\\]\\(\\S+(?=\\))\\)";
 static NSString *errorDomain = @"com.keithsmiley.KSADNPostParser";
 
 typedef NS_ENUM(NSInteger, KSADNPostParserError) {
@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 @interface KSADNPostParser ()
 @property (nonatomic, strong) NSDataDetector *dataDetector;
 @property (nonatomic, strong) NSRegularExpression *regex;
+@property (nonatomic, strong) NSCharacterSet *invalidCharacters;
 @end
 
 @implementation KSADNPostParser
@@ -61,6 +62,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
     self.dataDetector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:nil];
     self.regex = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:nil];
+    self.invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"#@."];
     
     return self;
 }
@@ -81,11 +83,9 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     NSMutableArray *links = [NSMutableArray array];
     NSString *errorText = @"";
 
-    if ([self containsMarkdownURL:postText])
-    {
+    if ([self containsMarkdownURL:postText]) {
         NSInteger numberOfErrors = 0;
-        for (NSInteger i = 0; i <= [self numberOfMarkdownURLsInString:postText]; ++i)
-        {
+        for (NSInteger i = 0; i <= [self numberOfMarkdownURLsInString:postText]; ++i) {
             @autoreleasepool {
                 NSValue *value = [self rangeOfFirstMarkdownString:postText];
                 if (!value) {
@@ -108,10 +108,14 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                     errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
                     numberOfErrors++;
                 }
-                
-                // TODO: Fix this
-                matches = [self.dataDetector numberOfMatchesInString:title options:0 range:NSMakeRange(0, [title length])];
-                if (matches < 1) {
+
+                if ([title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
+                    matches = 1;
+                } else {
+                    matches = [self.dataDetector numberOfMatchesInString:title options:0 range:NSMakeRange(0, [title length])];
+                }
+
+                if (matches > 0) {
                     errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", title, NSLocalizedString(@"Usernames, hashtags and URLs are invalid in the link's title", nil)];
                     numberOfErrors++;
                 }

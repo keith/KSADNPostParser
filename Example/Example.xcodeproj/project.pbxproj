@@ -21,6 +21,8 @@
 		C20109471714642A009D4E58 /* KSADNPostParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C20109451714642A009D4E58 /* KSADNPostParser.m */; };
 		C201094A17146579009D4E58 /* KSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C201094917146579009D4E58 /* KSConstants.m */; };
 		C201094B17146579009D4E58 /* KSConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = C201094917146579009D4E58 /* KSConstants.m */; };
+		C201096F17146821009D4E58 /* libExpecta-macosx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C201096C17146821009D4E58 /* libExpecta-macosx.a */; };
+		C201097B17146830009D4E58 /* libSpecta-macosx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C201097017146830009D4E58 /* libSpecta-macosx.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,50 @@
 		C20109451714642A009D4E58 /* KSADNPostParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSADNPostParser.m; path = ../../KSADNPostParser.m; sourceTree = "<group>"; };
 		C201094817146579009D4E58 /* KSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSConstants.h; path = ../../../../Git/SailOSX/Sail/KSConstants.h; sourceTree = "<group>"; };
 		C201094917146579009D4E58 /* KSConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSConstants.m; path = ../../../../Git/SailOSX/Sail/KSConstants.m; sourceTree = "<group>"; };
+		C201094E17146821009D4E58 /* EXPBackwardCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBackwardCompatibility.h; path = Vendor/Expecta/products/EXPBackwardCompatibility.h; sourceTree = SOURCE_ROOT; };
+		C201094F17146821009D4E58 /* EXPBlockDefinedMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBlockDefinedMatcher.h; path = Vendor/Expecta/products/EXPBlockDefinedMatcher.h; sourceTree = SOURCE_ROOT; };
+		C201095017146821009D4E58 /* EXPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDefines.h; path = Vendor/Expecta/products/EXPDefines.h; sourceTree = SOURCE_ROOT; };
+		C201095117146821009D4E58 /* EXPDoubleTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDoubleTuple.h; path = Vendor/Expecta/products/EXPDoubleTuple.h; sourceTree = SOURCE_ROOT; };
+		C201095217146821009D4E58 /* Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Expecta.h; path = Vendor/Expecta/products/Expecta.h; sourceTree = SOURCE_ROOT; };
+		C201095317146821009D4E58 /* ExpectaSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExpectaSupport.h; path = Vendor/Expecta/products/ExpectaSupport.h; sourceTree = SOURCE_ROOT; };
+		C201095417146821009D4E58 /* EXPExpect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPExpect.h; path = Vendor/Expecta/products/EXPExpect.h; sourceTree = SOURCE_ROOT; };
+		C201095517146821009D4E58 /* EXPFloatTuple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPFloatTuple.h; path = Vendor/Expecta/products/EXPFloatTuple.h; sourceTree = SOURCE_ROOT; };
+		C201095617146821009D4E58 /* EXPMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatcher.h; path = Vendor/Expecta/products/EXPMatcher.h; sourceTree = SOURCE_ROOT; };
+		C201095717146821009D4E58 /* EXPMatcherHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatcherHelpers.h; path = Vendor/Expecta/products/EXPMatcherHelpers.h; sourceTree = SOURCE_ROOT; };
+		C201095817146821009D4E58 /* EXPMatchers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPMatchers.h; path = Vendor/Expecta/products/EXPMatchers.h; sourceTree = SOURCE_ROOT; };
+		C201095917146821009D4E58 /* EXPMatchers+beCloseTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beCloseTo.h"; path = "Vendor/Expecta/products/EXPMatchers+beCloseTo.h"; sourceTree = SOURCE_ROOT; };
+		C201095A17146821009D4E58 /* EXPMatchers+beFalsy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beFalsy.h"; path = "Vendor/Expecta/products/EXPMatchers+beFalsy.h"; sourceTree = SOURCE_ROOT; };
+		C201095B17146821009D4E58 /* EXPMatchers+beGreaterThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beGreaterThan.h"; path = "Vendor/Expecta/products/EXPMatchers+beGreaterThan.h"; sourceTree = SOURCE_ROOT; };
+		C201095C17146821009D4E58 /* EXPMatchers+beGreaterThanOrEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beGreaterThanOrEqualTo.h"; path = "Vendor/Expecta/products/EXPMatchers+beGreaterThanOrEqualTo.h"; sourceTree = SOURCE_ROOT; };
+		C201095D17146821009D4E58 /* EXPMatchers+beIdenticalTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beIdenticalTo.h"; path = "Vendor/Expecta/products/EXPMatchers+beIdenticalTo.h"; sourceTree = SOURCE_ROOT; };
+		C201095E17146821009D4E58 /* EXPMatchers+beInstanceOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beInstanceOf.h"; path = "Vendor/Expecta/products/EXPMatchers+beInstanceOf.h"; sourceTree = SOURCE_ROOT; };
+		C201095F17146821009D4E58 /* EXPMatchers+beInTheRangeOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beInTheRangeOf.h"; path = "Vendor/Expecta/products/EXPMatchers+beInTheRangeOf.h"; sourceTree = SOURCE_ROOT; };
+		C201096017146821009D4E58 /* EXPMatchers+beKindOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beKindOf.h"; path = "Vendor/Expecta/products/EXPMatchers+beKindOf.h"; sourceTree = SOURCE_ROOT; };
+		C201096117146821009D4E58 /* EXPMatchers+beLessThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beLessThan.h"; path = "Vendor/Expecta/products/EXPMatchers+beLessThan.h"; sourceTree = SOURCE_ROOT; };
+		C201096217146821009D4E58 /* EXPMatchers+beLessThanOrEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beLessThanOrEqualTo.h"; path = "Vendor/Expecta/products/EXPMatchers+beLessThanOrEqualTo.h"; sourceTree = SOURCE_ROOT; };
+		C201096317146821009D4E58 /* EXPMatchers+beNil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beNil.h"; path = "Vendor/Expecta/products/EXPMatchers+beNil.h"; sourceTree = SOURCE_ROOT; };
+		C201096417146821009D4E58 /* EXPMatchers+beSubclassOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beSubclassOf.h"; path = "Vendor/Expecta/products/EXPMatchers+beSubclassOf.h"; sourceTree = SOURCE_ROOT; };
+		C201096517146821009D4E58 /* EXPMatchers+beTruthy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+beTruthy.h"; path = "Vendor/Expecta/products/EXPMatchers+beTruthy.h"; sourceTree = SOURCE_ROOT; };
+		C201096617146821009D4E58 /* EXPMatchers+contain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+contain.h"; path = "Vendor/Expecta/products/EXPMatchers+contain.h"; sourceTree = SOURCE_ROOT; };
+		C201096717146821009D4E58 /* EXPMatchers+equal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+equal.h"; path = "Vendor/Expecta/products/EXPMatchers+equal.h"; sourceTree = SOURCE_ROOT; };
+		C201096817146821009D4E58 /* EXPMatchers+haveCountOf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+haveCountOf.h"; path = "Vendor/Expecta/products/EXPMatchers+haveCountOf.h"; sourceTree = SOURCE_ROOT; };
+		C201096917146821009D4E58 /* EXPMatchers+raise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+raise.h"; path = "Vendor/Expecta/products/EXPMatchers+raise.h"; sourceTree = SOURCE_ROOT; };
+		C201096A17146821009D4E58 /* EXPMatchers+raiseWithReason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EXPMatchers+raiseWithReason.h"; path = "Vendor/Expecta/products/EXPMatchers+raiseWithReason.h"; sourceTree = SOURCE_ROOT; };
+		C201096B17146821009D4E58 /* EXPUnsupportedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPUnsupportedObject.h; path = Vendor/Expecta/products/EXPUnsupportedObject.h; sourceTree = SOURCE_ROOT; };
+		C201096C17146821009D4E58 /* libExpecta-macosx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libExpecta-macosx.a"; path = "Vendor/Expecta/products/libExpecta-macosx.a"; sourceTree = SOURCE_ROOT; };
+		C201096D17146821009D4E58 /* NSObject+Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Expecta.h"; path = "Vendor/Expecta/products/NSObject+Expecta.h"; sourceTree = SOURCE_ROOT; };
+		C201096E17146821009D4E58 /* NSValue+Expecta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+Expecta.h"; path = "Vendor/Expecta/products/NSValue+Expecta.h"; sourceTree = SOURCE_ROOT; };
+		C201097017146830009D4E58 /* libSpecta-macosx.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libSpecta-macosx.a"; path = "Vendor/Specta/products/libSpecta-macosx.a"; sourceTree = SOURCE_ROOT; };
+		C201097117146830009D4E58 /* Specta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Specta.h; path = Vendor/Specta/products/Specta.h; sourceTree = SOURCE_ROOT; };
+		C201097217146830009D4E58 /* SpectaSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpectaSupport.h; path = Vendor/Specta/products/SpectaSupport.h; sourceTree = SOURCE_ROOT; };
+		C201097317146830009D4E58 /* SpectaTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpectaTypes.h; path = Vendor/Specta/products/SpectaTypes.h; sourceTree = SOURCE_ROOT; };
+		C201097417146830009D4E58 /* SpectaUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpectaUtility.h; path = Vendor/Specta/products/SpectaUtility.h; sourceTree = SOURCE_ROOT; };
+		C201097517146830009D4E58 /* SPTExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTExample.h; path = Vendor/Specta/products/SPTExample.h; sourceTree = SOURCE_ROOT; };
+		C201097617146830009D4E58 /* SPTExampleGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTExampleGroup.h; path = Vendor/Specta/products/SPTExampleGroup.h; sourceTree = SOURCE_ROOT; };
+		C201097717146830009D4E58 /* SPTSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSenTestCase.h; path = Vendor/Specta/products/SPTSenTestCase.h; sourceTree = SOURCE_ROOT; };
+		C201097817146830009D4E58 /* SPTSenTestInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSenTestInvocation.h; path = Vendor/Specta/products/SPTSenTestInvocation.h; sourceTree = SOURCE_ROOT; };
+		C201097917146830009D4E58 /* SPTSharedExampleGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSharedExampleGroups.h; path = Vendor/Specta/products/SPTSharedExampleGroups.h; sourceTree = SOURCE_ROOT; };
+		C201097A17146830009D4E58 /* SPTSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSpec.h; path = Vendor/Specta/products/SPTSpec.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +119,8 @@
 			files = (
 				C20108311714616F009D4E58 /* SenTestingKit.framework in Frameworks */,
 				C20108321714616F009D4E58 /* Cocoa.framework in Frameworks */,
+				C201096F17146821009D4E58 /* libExpecta-macosx.a in Frameworks */,
+				C201097B17146830009D4E58 /* libSpecta-macosx.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,8 +215,68 @@
 		C20108461714628C009D4E58 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C201094C17146808009D4E58 /* Specta */,
+				C201094D1714680E009D4E58 /* Expecta */,
 			);
 			name = Vendor;
+			sourceTree = "<group>";
+		};
+		C201094C17146808009D4E58 /* Specta */ = {
+			isa = PBXGroup;
+			children = (
+				C201097017146830009D4E58 /* libSpecta-macosx.a */,
+				C201097117146830009D4E58 /* Specta.h */,
+				C201097217146830009D4E58 /* SpectaSupport.h */,
+				C201097317146830009D4E58 /* SpectaTypes.h */,
+				C201097417146830009D4E58 /* SpectaUtility.h */,
+				C201097517146830009D4E58 /* SPTExample.h */,
+				C201097617146830009D4E58 /* SPTExampleGroup.h */,
+				C201097717146830009D4E58 /* SPTSenTestCase.h */,
+				C201097817146830009D4E58 /* SPTSenTestInvocation.h */,
+				C201097917146830009D4E58 /* SPTSharedExampleGroups.h */,
+				C201097A17146830009D4E58 /* SPTSpec.h */,
+			);
+			name = Specta;
+			sourceTree = "<group>";
+		};
+		C201094D1714680E009D4E58 /* Expecta */ = {
+			isa = PBXGroup;
+			children = (
+				C201094E17146821009D4E58 /* EXPBackwardCompatibility.h */,
+				C201094F17146821009D4E58 /* EXPBlockDefinedMatcher.h */,
+				C201095017146821009D4E58 /* EXPDefines.h */,
+				C201095117146821009D4E58 /* EXPDoubleTuple.h */,
+				C201095217146821009D4E58 /* Expecta.h */,
+				C201095317146821009D4E58 /* ExpectaSupport.h */,
+				C201095417146821009D4E58 /* EXPExpect.h */,
+				C201095517146821009D4E58 /* EXPFloatTuple.h */,
+				C201095617146821009D4E58 /* EXPMatcher.h */,
+				C201095717146821009D4E58 /* EXPMatcherHelpers.h */,
+				C201095817146821009D4E58 /* EXPMatchers.h */,
+				C201095917146821009D4E58 /* EXPMatchers+beCloseTo.h */,
+				C201095A17146821009D4E58 /* EXPMatchers+beFalsy.h */,
+				C201095B17146821009D4E58 /* EXPMatchers+beGreaterThan.h */,
+				C201095C17146821009D4E58 /* EXPMatchers+beGreaterThanOrEqualTo.h */,
+				C201095D17146821009D4E58 /* EXPMatchers+beIdenticalTo.h */,
+				C201095E17146821009D4E58 /* EXPMatchers+beInstanceOf.h */,
+				C201095F17146821009D4E58 /* EXPMatchers+beInTheRangeOf.h */,
+				C201096017146821009D4E58 /* EXPMatchers+beKindOf.h */,
+				C201096117146821009D4E58 /* EXPMatchers+beLessThan.h */,
+				C201096217146821009D4E58 /* EXPMatchers+beLessThanOrEqualTo.h */,
+				C201096317146821009D4E58 /* EXPMatchers+beNil.h */,
+				C201096417146821009D4E58 /* EXPMatchers+beSubclassOf.h */,
+				C201096517146821009D4E58 /* EXPMatchers+beTruthy.h */,
+				C201096617146821009D4E58 /* EXPMatchers+contain.h */,
+				C201096717146821009D4E58 /* EXPMatchers+equal.h */,
+				C201096817146821009D4E58 /* EXPMatchers+haveCountOf.h */,
+				C201096917146821009D4E58 /* EXPMatchers+raise.h */,
+				C201096A17146821009D4E58 /* EXPMatchers+raiseWithReason.h */,
+				C201096B17146821009D4E58 /* EXPUnsupportedObject.h */,
+				C201096C17146821009D4E58 /* libExpecta-macosx.a */,
+				C201096D17146821009D4E58 /* NSObject+Expecta.h */,
+				C201096E17146821009D4E58 /* NSValue+Expecta.h */,
+			);
+			name = Expecta;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -435,6 +543,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "ExampleTests/ExampleTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Vendor/Expecta/products\"",
+					"\"$(SRCROOT)/Vendor/Specta/products\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -451,6 +564,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
 				INFOPLIST_FILE = "ExampleTests/ExampleTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Vendor/Expecta/products\"",
+					"\"$(SRCROOT)/Vendor/Specta/products\"",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

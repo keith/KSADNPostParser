@@ -23,26 +23,27 @@
 /*
  Parameter: NSString, the post text
  
- Return: NSDictionary
+ Return: Variables via block
     Returns an NSDictionary containing all the post metadata
         including the links array in the entites key for each
         Markdown formatted link
+    Also returns a printable NSError if there are issues with markdown in the given URLs
  
  NOTE:
     If you need other items in your post dictionary you'll
         have to deal with that elsewhere
     You still need to put the user's access token as an HTTP header field
  */
-- (NSDictionary *)postDictionaryForText:(NSString *)text;
+- (void)postDictionaryForText:(NSString *)text withBlock:(void(^)(NSDictionary *dictionary, NSError *error))block;
 
 /*
  Parameter: NSString, the post text
  
- Return: NSUInteger
+ Return: NSUInteger via block
     Returns the length of the given text after embedding the
         Markdown formatted links
  */
-- (NSUInteger)postLengthForText:(NSString *)text;
+- (void)postLengthForText:(NSString *)text withBlock:(void(^)(NSUInteger length))block;
 
 
 /*

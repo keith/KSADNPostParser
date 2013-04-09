@@ -26,7 +26,12 @@
  \)         # Literal closing parenthesis
  
  */
-static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
+static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(\\S+(?=\\))\\)";
+static NSString *errorDomain = @"com.keithsmiley.KSADNPostParser";
+
+typedef NS_ENUM(NSInteger, KSADNPostParserError) {
+    KSADNInvalidURL = -1000
+};
 
 @interface KSADNPostParser ()
 @property (nonatomic, strong) NSDataDetector *dataDetector;
@@ -61,17 +66,23 @@ static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
 
 #pragma mark
 
-- (NSDictionary *)postDictionaryForText:(NSString *)text
+- (void)postDictionaryForText:(NSString *)text withBlock:(void(^)(NSDictionary *dictionary, NSError *error))block
 {
     if (text.length < 1) {
-        return @{};
+        if (block) {
+            block(nil, nil);
+        }
+        
+        return;
     }
     
     NSString *postText = [text copy];
     NSMutableArray *links = [NSMutableArray array];
+    NSString *errorText = @"";
 
     if ([self containsMarkdownURL:postText])
     {
+        NSInteger numberOfErrors = 0;
         for (NSInteger i = 0; i <= [self numberOfMarkdownURLsInString:postText]; ++i)
         {
             @autoreleasepool {
@@ -90,6 +101,13 @@ static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
 
                 NSString *title = results[0];
                 NSString *urlString = results[1];
+                NSUInteger matches = [self.dataDetector numberOfMatchesInString:urlString options:0 range:NSMakeRange(0, [urlString length])];
+                if (matches < 1) {
+                    // Handle error
+                    errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
+                    numberOfErrors++;
+                }
+
                 postText = [postText stringByReplacingCharactersInRange:range withString:title];
                 NSRange titleRange = NSMakeRange(range.location, title.length);
                 NSDictionary *linkDictionary = [self linkDictionaryWithPosition:titleRange.location
@@ -99,6 +117,19 @@ static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
             }
         }
         
+        if (errorText.length > 0) {
+            NSString *errorTitle = NSLocalizedString(@"Invalid URL", nil);
+            if (numberOfErrors > 1) {
+                errorTitle = NSLocalizedString(@"Invalid URLs", nil);
+            }
+            
+            NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidURL userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
+            if (block) {
+                block(nil, error);
+            }
+            
+            return;
+        }
 
         NSArray *matches = [self.dataDetector matchesInString:postText options:0 range:NSMakeRange(0, [postText length])];
         for (NSTextCheckingResult *result in matches)
@@ -117,8 +148,10 @@ static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
     if (links.count > 0) {
         [dictionary setValue:@{LINKS_KEY: links} forKey:ENTITIES_KEY];
     }
-    
-    return dictionary;
+
+    if (block) {
+        block(dictionary, nil);
+    }
 }
 
 - (NSDictionary *)linkDictionaryWithPosition:(NSUInteger)position length:(NSUInteger)length andURL:(NSString *)url
@@ -128,14 +161,25 @@ static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
              URL_KEY: url};
 }
 
-- (NSUInteger)postLengthForText:(NSString *)text
+- (void)postLengthForText:(NSString *)text withBlock:(void(^)(NSUInteger length))block
 {
     if (![self containsMarkdownURL:text]) {
-        return text.length;
+        if (block) {
+            block(text.length);
+        }
+        
+        return;
     }
-    
-    NSDictionary *dictionary = [self postDictionaryForText:text];
-    return [[dictionary valueForKey:TEXT_KEY] length];
+
+    [self postDictionaryForText:text withBlock:^(NSDictionary *dictionary, NSError *error) {
+        if (block) {
+            if (dictionary) {
+                block([[dictionary valueForKey:TEXT_KEY] length]);
+            } else {
+                block(text.length);
+            }
+        }
+    }];
 }
 
 - (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown

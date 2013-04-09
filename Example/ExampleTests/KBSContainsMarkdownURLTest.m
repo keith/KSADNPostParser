@@ -46,9 +46,15 @@ describe(@"containsMarkdownURL", ^{
         NSString *post = @"[@keith](http://google.com)";
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
         
+        post = @"[kei@th](http://google.com)";
+        expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
+        
         post = @"[#keith](http://google.com)";
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
         
+        post = @"[ke#ith](http://google.com)";
+        expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
+
         post = @"[ke.th](http://google.com)";
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
     });

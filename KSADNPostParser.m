@@ -7,6 +7,7 @@
 //
 
 #import "KSADNPostParser.h"
+#import "KSConstants.h"
 
 /*
  Uses regex to determine if there is a Markdown URL and parse it.
@@ -29,6 +30,17 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
 
 
 @implementation KSADNPostParser
+
++ (KSADNPostParser *)shared
+{
+    static KSADNPostParser *shared = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shared = [[KSADNPostParser alloc] init];
+    });
+    
+    return shared;
+}
 
 + (NSDictionary *)postDictionaryForText:(NSString *)text
 {
@@ -84,7 +96,7 @@ static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
             }
         }
     }
-    
+
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:postText forKey:TEXT_KEY];
     

@@ -11,6 +11,16 @@
 @interface KSADNPostParser : NSObject
 
 /*
+ Return: KSADNPostParser
+    Returns the shared instance to be used
+ 
+ NOTE:
+    If you choose not to use this you're loosing the small amount of caching
+        this does
+ */
++ (KSADNPostParser *)shared;
+
+/*
  Parameter: NSString, the post text
  
  Return: NSDictionary

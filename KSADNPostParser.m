@@ -26,8 +26,7 @@
  \)         # Literal closing parenthesis
  
  */
-static NSString *regexString = @"\\[([^@^#^\\]]+)\\]\\(([^)]+)\\)";
-
+static NSString *regexString = @"\\[([^@\\.#\\]]+)\\]\\(.+\\)";
 
 @interface KSADNPostParser ()
 @property (nonatomic, strong) NSDataDetector *dataDetector;

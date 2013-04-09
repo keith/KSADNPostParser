@@ -10,6 +10,9 @@
 
 SpecBegin(ContainsMarkdownURL)
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+
 describe(@"containsMarkdownURL", ^{
     it(@"should return true when there is a markdown url", ^{
         NSString *post = @"This is a string with a [url](https://github.com/)";
@@ -26,5 +29,7 @@ describe(@"containsMarkdownURL", ^{
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.beFalsy;
     });
 });
+
+#pragma GCC diagnostic pop
 
 SpecEnd

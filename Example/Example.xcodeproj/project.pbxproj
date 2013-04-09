@@ -102,6 +102,7 @@
 		C201097817146830009D4E58 /* SPTSenTestInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSenTestInvocation.h; path = Vendor/Specta/products/SPTSenTestInvocation.h; sourceTree = SOURCE_ROOT; };
 		C201097917146830009D4E58 /* SPTSharedExampleGroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSharedExampleGroups.h; path = Vendor/Specta/products/SPTSharedExampleGroups.h; sourceTree = SOURCE_ROOT; };
 		C201097A17146830009D4E58 /* SPTSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPTSpec.h; path = Vendor/Specta/products/SPTSpec.h; sourceTree = SOURCE_ROOT; };
+		C201097C17146A77009D4E58 /* KBSCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBSCommon.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +198,7 @@
 		C20108351714616F009D4E58 /* ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				C201097C17146A77009D4E58 /* KBSCommon.h */,
 				C2010942171463AB009D4E58 /* KBSLengthTest.m */,
 				C20108361714616F009D4E58 /* Supporting Files */,
 			);

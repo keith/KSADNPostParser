@@ -27,16 +27,20 @@
  
  */
 //static NSString *regexString = @"\\[([^@#\\.\\]]+)\\]\\(\\S+(?=\\))\\)";
+static NSString *titleRegex  = @"\\[([^\\]]+)\\]";
+static NSString *urlRegex    = @"\\(\\S+(?=\\))\\)";
 static NSString *regexString = @"\\[([^\\]]+)\\]\\(\\S+(?=\\))\\)";
 static NSString *errorDomain = @"com.keithsmiley.KSADNPostParser";
 
 typedef NS_ENUM(NSInteger, KSADNPostParserError) {
-    KSADNInvalidURL = -1000
+    KSADNInvalidMarkdown = -1000
 };
 
 @interface KSADNPostParser ()
 @property (nonatomic, strong) NSDataDetector *dataDetector;
 @property (nonatomic, strong) NSRegularExpression *regex;
+//@property (nonatomic, strong) NSRegularExpression *titleRegex;
+//@property (nonatomic, strong) NSRegularExpression *urlRegex;
 @property (nonatomic, strong) NSCharacterSet *invalidCharacters;
 @end
 
@@ -60,8 +64,10 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
         return nil;
     }
 
-    self.dataDetector = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:nil];
-    self.regex = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:nil];
+    self.dataDetector      = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:nil];
+    self.regex             = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:nil];
+//    self.titleRegex        = [NSRegularExpression regularExpressionWithPattern:titleRegex options:0 error:nil];
+//    self.urlRegex          = [NSRegularExpression regularExpressionWithPattern:urlRegex options:0 error:nil];
     self.invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"#@."];
     
     return self;
@@ -116,7 +122,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                 }
 
                 if (matches > 0) {
-                    errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", title, NSLocalizedString(@"Usernames, hashtags and URLs are invalid in the link's title", nil)];
+                    errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", title, NSLocalizedString(@"Usernames, hashtags and URLs are invalid in the title", nil)];
                     numberOfErrors++;
                 }
 
@@ -135,7 +141,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                 errorTitle = NSLocalizedString(@"Invalid URLs", nil);
             }
             
-            NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidURL userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
+            NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidMarkdown userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
             if (block) {
                 block(nil, error);
             }
@@ -193,24 +199,16 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
 - (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown
 {
-    if (![self possibleValidString:markdown]) {
+    NSRange titleSectionRange = [markdown rangeOfString:titleRegex options:NSRegularExpressionSearch];
+    NSRange urlSectionRange = [markdown rangeOfString:urlRegex options:NSRegularExpressionSearch];
+    
+    if (![self possibleValidString:markdown] || titleSectionRange.location == NSNotFound || urlSectionRange.location == NSNotFound) {
         return @[];
     }
-    
-    // Locations of all punctuation
-    NSUInteger openBracketLocation = [markdown rangeOfString:@"["].location;
-    NSUInteger closeBracketLocation = [markdown rangeOfString:@"]"].location;
-    NSUInteger openParenLocation = [markdown rangeOfString:@"("].location;
-    NSUInteger closeParenLocation = [markdown rangeOfString:@")"].location;
-    
-    // Total length of the title and URL minus the punctuation character
-    NSUInteger titleLength = closeBracketLocation - openBracketLocation - 1;
-    NSUInteger urlLength = closeParenLocation - openParenLocation - 1;
-    
-    // Get the appropriate substrings
-    NSString *title = [markdown substringWithRange:NSMakeRange(openBracketLocation + 1, titleLength)];
-    NSString *urlString = [markdown substringWithRange:NSMakeRange(openParenLocation + 1, urlLength)];
-    
+
+    NSString *title     = [markdown substringWithRange:NSMakeRange(titleSectionRange.location + 1, titleSectionRange.length - 2)];
+    NSString *urlString = [markdown substringWithRange:NSMakeRange(urlSectionRange.location + 1, urlSectionRange.length - 2)];
+
     return @[title, urlString];
 }
 
@@ -218,8 +216,8 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 - (BOOL)possibleValidString:(NSString *)text
 {
     text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([text characterAtIndex:0] != '[' ||
-        [text characterAtIndex:text.length - 1] != ')' ||
+    if (![text hasPrefix:@"["] ||
+        ![text hasSuffix:@")"] ||
         [text rangeOfString:@"]"].location == NSNotFound ||
         [text rangeOfString:@"("].location == NSNotFound)
     {

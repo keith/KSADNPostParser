@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     dispatch_once(&onceToken, ^{
         shared = [[KSADNPostParser alloc] init];
     });
-    
+
     return shared;
 }
 
@@ -91,7 +91,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                 if (!value) {
                     continue;
                 }
-                
+
                 NSRange range = [value rangeValue];
                 NSString *markdownString = [postText substringWithRange:range];
                 NSArray *results = [self extractURLandTitleFromMarkdownString:markdownString];
@@ -173,25 +173,22 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
              URL_KEY: url};
 }
 
-- (void)postLengthForText:(NSString *)text withBlock:(void(^)(NSUInteger length))block
+- (NSUInteger)postLengthForText:(NSString *)text
 {
     if (![self containsMarkdownURL:text]) {
-        if (block) {
-            block(text.length);
-        }
-        
-        return;
+        return [text length];
     }
 
+    __block NSDictionary *returnDictionary = nil;
     [self postDictionaryForText:text withBlock:^(NSDictionary *dictionary, NSError *error) {
-        if (block) {
-            if (dictionary) {
-                block([[dictionary valueForKey:TEXT_KEY] length]);
-            } else {
-                block(text.length);
-            }
-        }
+        returnDictionary = dictionary;
     }];
+    
+    if (returnDictionary) {
+        return [[returnDictionary valueForKey:TEXT_KEY] length];
+    } else {
+        return [text length];
+    }
 }
 
 - (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown

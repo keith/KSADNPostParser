@@ -39,11 +39,11 @@
 /*
  Parameter: NSString, the post text
  
- Return: NSUInteger via block
+ Return: NSUInteger
     Returns the length of the given text after embedding the
         Markdown formatted links
  */
-- (void)postLengthForText:(NSString *)text withBlock:(void(^)(NSUInteger length))block;
+- (NSUInteger)postLengthForText:(NSString *)text;
 
 
 /*

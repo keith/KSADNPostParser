@@ -19,6 +19,15 @@ describe(@"postDictionaryForText", ^{
             expect(error).to.equal(nil);
         }];
     });
+
+    it(@"should return an empty dictionary for text with no URL", ^{
+      NSString *post = @"Some random post text";
+      [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+        expect(dictionary.count).to.equal(1);
+        expect(error).to.equal(nil);
+        expect([dictionary valueForKey:TEXT_KEY]).to.equal(post);
+      }];
+    });
     
     it(@"should return an dictionary with correct metadata", ^{
         NSString *post = @"This is a string with a [url](https://github.com/)";

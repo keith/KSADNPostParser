@@ -1,2 +1,4 @@
 language: objective-c
-before_script: 'cd Example'
+before_script:
+  - './setup.sh'
+  - 'cd Example'

@@ -39,8 +39,6 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 @interface KSADNPostParser ()
 @property (nonatomic, strong) NSDataDetector *dataDetector;
 @property (nonatomic, strong) NSRegularExpression *regex;
-//@property (nonatomic, strong) NSRegularExpression *titleRegex;
-//@property (nonatomic, strong) NSRegularExpression *urlRegex;
 @property (nonatomic, strong) NSCharacterSet *invalidCharacters;
 @end
 
@@ -66,8 +64,6 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
     self.dataDetector      = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:nil];
     self.regex             = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:nil];
-//    self.titleRegex        = [NSRegularExpression regularExpressionWithPattern:titleRegex options:0 error:nil];
-//    self.urlRegex          = [NSRegularExpression regularExpressionWithPattern:urlRegex options:0 error:nil];
     self.invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"#@."];
     
     return self;
@@ -190,8 +186,9 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
         returnDictionary = dictionary;
     }];
     
-    if (returnDictionary) {
-        return [[returnDictionary valueForKey:TEXT_KEY] length];
+    NSString *returnText = [returnDictionary valueForKey:TEXT_KEY];
+    if (returnText) {
+        return [returnText length];
     } else {
         return [text length];
     }

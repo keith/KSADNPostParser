@@ -26,7 +26,6 @@ describe(@"postDictionaryForText", ^{
         expect(dictionary.count).to.equal(1);
         expect(error).to.equal(nil);
         expect([dictionary valueForKey:TEXT_KEY]).to.equal(post);
-        expect(true).to.equal(false);
       }];
     });
     

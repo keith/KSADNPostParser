@@ -28,6 +28,7 @@
 		C201098C17148545009D4E58 /* KBSRangeOfFirstMatchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C201098B17148544009D4E58 /* KBSRangeOfFirstMatchTest.m */; };
 		C25D59261715CD6F00A76B19 /* KBSExtractMarkdownTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C25D59251715CD6F00A76B19 /* KBSExtractMarkdownTest.m */; };
 		C25D59291715D0C200A76B19 /* KBSPossiblyValidTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C25D59281715D0C200A76B19 /* KBSPossiblyValidTest.m */; };
+		C2CB91F017172DD3002A69E3 /* KBSNumberOfURLsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CB91EF17172DD3002A69E3 /* KBSNumberOfURLsTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		C201098B17148544009D4E58 /* KBSRangeOfFirstMatchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSRangeOfFirstMatchTest.m; sourceTree = "<group>"; };
 		C25D59251715CD6F00A76B19 /* KBSExtractMarkdownTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBSExtractMarkdownTest.m; path = ExampleTests/KBSExtractMarkdownTest.m; sourceTree = SOURCE_ROOT; };
 		C25D59281715D0C200A76B19 /* KBSPossiblyValidTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSPossiblyValidTest.m; sourceTree = "<group>"; };
+		C2CB91EF17172DD3002A69E3 /* KBSNumberOfURLsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSNumberOfURLsTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 				C201098B17148544009D4E58 /* KBSRangeOfFirstMatchTest.m */,
 				C25D59251715CD6F00A76B19 /* KBSExtractMarkdownTest.m */,
 				C25D59281715D0C200A76B19 /* KBSPossiblyValidTest.m */,
+				C2CB91EF17172DD3002A69E3 /* KBSNumberOfURLsTest.m */,
 				C20108361714616F009D4E58 /* Supporting Files */,
 			);
 			path = ExampleTests;
@@ -424,6 +427,7 @@
 				C201098C17148545009D4E58 /* KBSRangeOfFirstMatchTest.m in Sources */,
 				C25D59261715CD6F00A76B19 /* KBSExtractMarkdownTest.m in Sources */,
 				C25D59291715D0C200A76B19 /* KBSPossiblyValidTest.m in Sources */,
+				C2CB91F017172DD3002A69E3 /* KBSNumberOfURLsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -86,7 +86,8 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     NSString *errorText = @"";
 
     if ([self containsMarkdownURL:postText]) {
-        NSInteger numberOfErrors = 0;
+        NSInteger numberOfURLErrors   = 0;
+        NSInteger numberOfTitleErrors = 0;
         for (NSInteger i = 0; i <= [self numberOfMarkdownURLsInString:postText]; ++i) {
             @autoreleasepool {
                 NSValue *value = [self rangeOfFirstMarkdownString:postText];
@@ -108,7 +109,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                 if (matches < 1) {
                     // Handle error
                     errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
-                    numberOfErrors++;
+                    numberOfURLErrors++;
                 }
 
                 if ([title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
@@ -119,7 +120,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
                 if (matches > 0) {
                     errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", title, NSLocalizedString(@"Usernames, hashtags and URLs are invalid in the title", nil)];
-                    numberOfErrors++;
+                    numberOfTitleErrors++;
                 }
 
                 postText = [postText stringByReplacingCharactersInRange:range withString:title];
@@ -133,7 +134,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
         
         if (errorText.length > 0) {
             NSString *errorTitle = NSLocalizedString(@"Invalid URL", nil);
-            if (numberOfErrors > 1) {
+            if (numberOfURLErrors > 1 || numberOfTitleErrors > 1) {
                 errorTitle = NSLocalizedString(@"Invalid URLs", nil);
             }
             

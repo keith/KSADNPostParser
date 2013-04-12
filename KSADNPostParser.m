@@ -114,7 +114,6 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                   if ([title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
                     matches = 1;
                   } else {
-                    NSLog(@"Found URL in title: %@", title);
                     matches = [self.dataDetector numberOfMatchesInString:title options:0 range:NSMakeRange(0, [title length])];
                   }
                   

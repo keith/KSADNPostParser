@@ -83,7 +83,51 @@ describe(@"postDictionaryForText", ^{
         expect([body rangeOfString:@"Usernames"].location == NSNotFound).to.equal(false);
       }];
     });
-    
+  
+    describe(@"invalid title characters", ^{
+      it(@"should allow dots in the title", ^{
+        NSString *post = @"This is [val.id](https://github.com/)";
+        [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+          expect(error).to.equal(nil);
+          expect(dictionary.count).to.equal(2);
+          expect([dictionary valueForKey:TEXT_KEY]).to.equal(@"This is val.id");
+        }];
+      });
+      
+      it(@"should not allow URLs in the title", ^{
+        NSString *post = @"[https://github.com/](https://github.com/)";
+        [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+          expect(dictionary).to.equal(nil);
+          expect(error).notTo.equal(nil);
+          NSDictionary *userInfo = [error userInfo];
+          NSString *body = [userInfo valueForKey:NSLocalizedRecoverySuggestionErrorKey];
+          expect([body rangeOfString:@"Usernames"].location == NSNotFound).to.equal(false);
+        }];
+      });
+      
+      it(@"should not allow @ signs in the title", ^{
+        NSString *post = @"This is [@invalid](https://github.com/)";
+        [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+          expect(dictionary).to.equal(nil);
+          expect(error).notTo.equal(nil);
+          NSDictionary *userInfo = [error userInfo];
+          NSString *body = [userInfo valueForKey:NSLocalizedRecoverySuggestionErrorKey];
+          expect([body rangeOfString:@"Usernames"].location == NSNotFound).to.equal(false);
+        }];
+      });
+      
+      it(@"should not allow # symbols in the title", ^{
+        NSString *post = @"This is [#invalid](https://github.com/)";
+        [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+          expect(dictionary).to.equal(nil);
+          expect(error).notTo.equal(nil);
+          NSDictionary *userInfo = [error userInfo];
+          NSString *body = [userInfo valueForKey:NSLocalizedRecoverySuggestionErrorKey];
+          expect([body rangeOfString:@"Usernames"].location == NSNotFound).to.equal(false);
+        }];
+      });
+    });
+  
     it(@"should have a different url with multiple invalid URLs", ^{
       NSString *post = @"A string with multiple [invalid](fakeurl) and [something](else)";
 

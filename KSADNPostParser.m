@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
     self.dataDetector      = [NSDataDetector dataDetectorWithTypes:(NSTextCheckingTypes)NSTextCheckingTypeLink error:nil];
     self.regex             = [NSRegularExpression regularExpressionWithPattern:regexString options:0 error:nil];
-    self.invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"#@."];
+    self.invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"#@"];
     
     return self;
 }
@@ -86,8 +86,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     NSString *errorText = @"";
 
     if ([self containsMarkdownURL:postText]) {
-        NSInteger numberOfURLErrors   = 0;
-        NSInteger numberOfTitleErrors = 0;
+        BOOL hasTitleError = false;
         for (NSInteger i = 0; i <= [self numberOfMarkdownURLsInString:postText]; ++i) {
             @autoreleasepool {
                 NSValue *value = [self rangeOfFirstMarkdownString:postText];
@@ -109,18 +108,20 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
                 if (matches < 1) {
                     // Handle error
                     errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
-                    numberOfURLErrors++;
                 }
 
-                if ([title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
+                if (!hasTitleError) {
+                  if ([title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
                     matches = 1;
-                } else {
+                  } else {
+                    NSLog(@"Found URL in title: %@", title);
                     matches = [self.dataDetector numberOfMatchesInString:title options:0 range:NSMakeRange(0, [title length])];
-                }
-
-                if (matches > 0) {
-                    errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", title, NSLocalizedString(@"Usernames, hashtags and URLs are invalid in the title", nil)];
-                    numberOfTitleErrors++;
+                  }
+                  
+                  if (matches > 0) {
+                    errorText = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"Usernames, hashtags and URLs are not allowed in the title", nil), errorText];
+                    hasTitleError = true;
+                  }
                 }
 
                 postText = [postText stringByReplacingCharactersInRange:range withString:title];
@@ -133,11 +134,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
         }
         
         if (errorText.length > 0) {
-            NSString *errorTitle = NSLocalizedString(@"Invalid URL", nil);
-            if (numberOfURLErrors > 1 || numberOfTitleErrors > 1) {
-                errorTitle = NSLocalizedString(@"Invalid URLs", nil);
-            }
-            
+            NSString *errorTitle = NSLocalizedString(@"Invalid Markdown", nil);
             NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidMarkdown userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
             if (block) {
                 block(nil, error);

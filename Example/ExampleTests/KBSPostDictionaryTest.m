@@ -63,8 +63,6 @@ describe(@"postDictionaryForText", ^{
           expect(dictionary).to.equal(nil);
           expect(error).notTo.equal(nil);
           NSDictionary *info = [error userInfo];
-          NSString *title = [info valueForKey:NSLocalizedDescriptionKey];
-          expect([title hasSuffix:@"Markdown"]).to.equal(true);
           
           NSString *body = [info valueForKey:NSLocalizedRecoverySuggestionErrorKey];
           expect([body rangeOfString:@"invalid"].location == NSNotFound).to.equal(false);
@@ -76,8 +74,6 @@ describe(@"postDictionaryForText", ^{
         expect(error).notTo.equal(nil);
         NSDictionary *info = [error userInfo];
         expect(info).notTo.equal(nil);
-        NSString *title = [info valueForKey:NSLocalizedDescriptionKey];
-        expect([title hasSuffix:@"Markdown"]).to.equal(true);
         
         NSString *body = [info valueForKey:NSLocalizedRecoverySuggestionErrorKey];
         expect([body rangeOfString:@"Usernames"].location == NSNotFound).to.equal(false);
@@ -135,8 +131,6 @@ describe(@"postDictionaryForText", ^{
         expect(dictionary).to.equal(nil);
         expect(error).notTo.equal(nil);
         NSDictionary *info = [error userInfo];
-        NSString *title = [info valueForKey:NSLocalizedDescriptionKey];
-        expect([title hasSuffix:@"Markdown"]).to.equal(true);
         
         NSString *body = [info valueForKey:NSLocalizedRecoverySuggestionErrorKey];
         NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:@"invalid" options:0 error:nil];

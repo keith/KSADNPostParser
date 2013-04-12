@@ -133,7 +133,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
         }
         
         if (errorText.length > 0) {
-            NSString *errorTitle = NSLocalizedString(@"Invalid Markdown", nil);
+            NSString *errorTitle = NSLocalizedString(@"Invalid inline URL", nil);
             NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidMarkdown userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
             if (block) {
                 block(nil, error);

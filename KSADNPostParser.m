@@ -16,7 +16,7 @@
  
  \[         # Literal opening bracket
     (        # Capture what we find in here
-        [^@#\.\]]+ # One or more characters other than close bracket or a username or hashtag
+        [^\]]+ # One or more characters other than close bracket or a username or hashtag
     )        # Stop capturing
  \]         # Literal closing bracket
  \(         # Literal opening parenthesis
@@ -26,7 +26,7 @@
  \)         # Literal closing parenthesis
  
  */
-//static NSString *regexString = @"\\[([^@#\\.\\]]+)\\]\\(\\S+(?=\\))\\)";
+
 static NSString *titleRegex  = @"\\[([^\\]]+)\\]";
 static NSString *urlRegex    = @"\\(\\S+(?=\\))\\)";
 static NSString *regexString = @"\\[([^\\]]+)\\]\\(\\S+(?=\\))\\)";

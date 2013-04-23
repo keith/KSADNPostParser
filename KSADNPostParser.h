@@ -133,4 +133,20 @@
  */
 - (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text;
 
+
+/*
+ Parameter: NSString of the text for posting
+   EX: This is my post [mysite](http://website.com)
+       This is some post
+ 
+ Return: NSString of the text
+   returns the string with the markdown characters removed
+     for Twitter
+ 
+ EX: This is my post [mysite](http://website.com)
+ Return: This is my post mysite http://website.com
+ 
+ */
+- (NSString *)twitterTextFromString:(NSString *)text;
+
 @end

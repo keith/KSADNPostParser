@@ -253,4 +253,38 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
   return ranges;
 }
 
+- (NSString *)twitterTextFromString:(NSString *)text
+{
+  if (![self containsMarkdownURL:text]) {
+    return text;
+  }
+  
+  NSArray *ranges = [self rangesOfMarkdownURLStrings:text];
+  if (ranges.count < 1) {
+    return text;
+  }
+  
+  for (NSValue *value in [ranges reverseObjectEnumerator]) {
+    @autoreleasepool {
+      NSRange theRange = [value rangeValue];
+      if (theRange.length < 1) {
+        continue;
+      }
+      
+      NSString *markdownString = [text substringWithRange:theRange];
+      NSArray *results = [self extractURLandTitleFromMarkdownString:markdownString];
+      if (results.count != 2) {
+        continue;
+      }
+      
+      NSString *title = results[0];
+      NSString *urlString = results[1];
+      NSString *cleanedMarkdown = [NSString stringWithFormat:@"%@ %@", title, urlString];
+      text = [text stringByReplacingCharactersInRange:theRange withString:cleanedMarkdown];
+    }
+  }
+  
+  return text;
+}
+
 @end

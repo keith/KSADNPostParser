@@ -87,7 +87,8 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
   
   if ([self containsMarkdownURL:postText]) {
     BOOL hasTitleError = false;
-    for (NSInteger i = 0; i <= [self numberOfMarkdownURLsInString:postText]; ++i) {
+    NSUInteger numberOfMatches = [self numberOfMarkdownURLsInString:postText];
+    for (NSInteger i = 0; i < numberOfMatches; i++) {
       @autoreleasepool {
         NSValue *value = [self rangeOfFirstMarkdownString:postText];
         if (!value) {

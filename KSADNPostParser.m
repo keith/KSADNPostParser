@@ -87,7 +87,9 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
   
   if ([self containsMarkdownURL:postText]) {
     BOOL hasTitleError = false;
-    NSUInteger numberOfMatches = [self numberOfMarkdownURLsInString:postText];
+    NSUInteger numberOfMatches  = [self numberOfMarkdownURLsInString:postText];
+    NSMutableArray *titleRanges = [NSMutableArray array];
+    
     for (NSInteger i = 0; i < numberOfMatches; i++) {
       @autoreleasepool {
         NSValue *value = [self rangeOfFirstMarkdownString:postText];
@@ -111,24 +113,16 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
           errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
         }
         
-        if (!hasTitleError) {
-          if ([title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
-            matches = 1;
-          } else {
-            matches = [self.dataDetector numberOfMatchesInString:title options:0 range:NSMakeRange(0, [title length])];
-          }
-          
-          if (matches > 0) {
-            errorText = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"Usernames, hashtags and URLs are not allowed in the title", nil), errorText];
-            hasTitleError = true;
-          }
+        if (!hasTitleError && [title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
+          errorText = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"Usernames and hashtags are not allowed in the title", nil), errorText];
+          hasTitleError = true;
         }
         
         postText = [postText stringByReplacingCharactersInRange:range withString:title];
         NSRange titleRange = NSMakeRange(range.location, title.length);
-        NSDictionary *linkDictionary = [self linkDictionaryWithPosition:titleRange.location
-                                                                 length:titleRange.length
-                                                                 andURL:urlString];
+        [titleRanges addObject:[NSValue valueWithRange:titleRange]];
+
+        NSDictionary *linkDictionary = [self linkDictionaryWithPosition:titleRange.location length:titleRange.length andURL:urlString];
         [links addObject:linkDictionary];
       }
     }
@@ -144,13 +138,25 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     }
     
     NSArray *matches = [self.dataDetector matchesInString:postText options:0 range:NSMakeRange(0, [postText length])];
-    for (NSTextCheckingResult *result in matches)
-    {
+    for (NSTextCheckingResult *result in matches) {
       NSRange linkRange = result.range;
+      BOOL overlaps = false;
+
+      for (NSValue *value in titleRanges) {
+        NSRange aTitleRange  = [value rangeValue];
+        NSRange intersection = NSIntersectionRange(linkRange, aTitleRange);
+        if (intersection.length > 0) {
+          overlaps = true;
+          break;
+        }
+      }
+
+      if (overlaps) {
+        continue;
+      }
+
       NSString *urlString = [postText substringWithRange:linkRange];
-      [links addObject:[self linkDictionaryWithPosition:linkRange.location
-                                                 length:linkRange.length
-                                                 andURL:urlString]];
+      [links addObject:[self linkDictionaryWithPosition:linkRange.location length:linkRange.length andURL:urlString]];
     }
   }
   

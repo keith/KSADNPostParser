@@ -29,6 +29,15 @@ describe(@"postDictionaryForText", ^{
     }];
   });
   
+  it(@"should return no URLs when there is no markdown", ^{
+    NSString *post = @"Some random post with http://github.com for a URL";
+    [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+      expect(dictionary.count).to.equal(1);
+      expect(error).to.equal(nil);
+      expect([dictionary valueForKey:TEXT_KEY]).to.equal(post);
+    }];
+  });
+  
   describe(@"more than 2 markdown URLs", ^{
     it(@"should return the correct text for 3 urls", ^{
       NSString *text = @"Foo [URL](google.com) bar [Github](github.com) baz [Gmail](gmail.com) qux";
@@ -40,6 +49,9 @@ describe(@"postDictionaryForText", ^{
         
         NSString *postText = [dictionary valueForKey:TEXT_KEY];
         expect(postText).to.equal(expectedText);
+
+        NSDictionary *links = [[dictionary valueForKey:ENTITIES_KEY] valueForKey:LINKS_KEY];
+        expect(links.count).to.equal(3);
       }];
     });
   
@@ -53,6 +65,9 @@ describe(@"postDictionaryForText", ^{
         
         NSString *postText = [dictionary valueForKey:TEXT_KEY];
         expect(postText).to.equal(expectedText);
+
+        NSDictionary *links = [[dictionary valueForKey:ENTITIES_KEY] valueForKey:LINKS_KEY];
+        expect(links.count).to.equal(4);
       }];
     });
   });
@@ -117,15 +132,15 @@ describe(@"postDictionaryForText", ^{
         expect([dictionary valueForKey:TEXT_KEY]).to.equal(@"This is val.id");
       }];
     });
-    
-    it(@"should not allow URLs in the title", ^{
-      NSString *post = @"[https://github.com/](https://github.com/)";
+
+    it(@"should allow URLs in the title", ^{
+      NSString *post = @"[github.com](https://github.com/)";
       [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
-        expect(dictionary).to.equal(nil);
-        expect(error).notTo.equal(nil);
-        NSDictionary *userInfo = [error userInfo];
-        NSString *body = [userInfo valueForKey:NSLocalizedRecoverySuggestionErrorKey];
-        expect([body rangeOfString:@"Usernames"].location == NSNotFound).to.equal(false);
+        expect(dictionary.count).to.equal(2);
+        expect(error).to.equal(nil);
+
+        NSDictionary *links = [[dictionary valueForKey:ENTITIES_KEY] valueForKey:LINKS_KEY];
+        expect(links.count).to.equal(1);
       }];
     });
     

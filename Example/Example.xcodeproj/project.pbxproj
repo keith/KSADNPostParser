@@ -61,8 +61,8 @@
 		C20108371714616F009D4E58 /* ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		C20108391714616F009D4E58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C2010942171463AB009D4E58 /* KBSLengthTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBSLengthTest.m; sourceTree = "<group>"; };
-		C20109441714642A009D4E58 /* KSADNPostParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSADNPostParser.h; path = ../../KSADNPostParser.h; sourceTree = "<group>"; };
-		C20109451714642A009D4E58 /* KSADNPostParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSADNPostParser.m; path = ../../KSADNPostParser.m; sourceTree = "<group>"; };
+		C20109441714642A009D4E58 /* KSADNPostParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KSADNPostParser.h; path = ../KSADNPostParser.h; sourceTree = "<group>"; };
+		C20109451714642A009D4E58 /* KSADNPostParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KSADNPostParser.m; path = ../KSADNPostParser.m; sourceTree = "<group>"; };
 		C201094E17146821009D4E58 /* EXPBackwardCompatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBackwardCompatibility.h; path = Vendor/Expecta/products/EXPBackwardCompatibility.h; sourceTree = SOURCE_ROOT; };
 		C201094F17146821009D4E58 /* EXPBlockDefinedMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPBlockDefinedMatcher.h; path = Vendor/Expecta/products/EXPBlockDefinedMatcher.h; sourceTree = SOURCE_ROOT; };
 		C201095017146821009D4E58 /* EXPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXPDefines.h; path = Vendor/Expecta/products/EXPDefines.h; sourceTree = SOURCE_ROOT; };
@@ -145,6 +145,8 @@
 		C20108061714616E009D4E58 = {
 			isa = PBXGroup;
 			children = (
+				C20109441714642A009D4E58 /* KSADNPostParser.h */,
+				C20109451714642A009D4E58 /* KSADNPostParser.m */,
 				C20108181714616E009D4E58 /* Example */,
 				C20108351714616F009D4E58 /* ExampleTests */,
 				C20108111714616E009D4E58 /* Frameworks */,
@@ -186,11 +188,9 @@
 			children = (
 				C20108241714616F009D4E58 /* KBSAppDelegate.h */,
 				C20108251714616F009D4E58 /* KBSAppDelegate.m */,
-				C20108271714616F009D4E58 /* MainMenu.xib */,
 				C201098217146BF1009D4E58 /* KSConstants.h */,
 				C201098317146BF1009D4E58 /* KSConstants.m */,
-				C20109441714642A009D4E58 /* KSADNPostParser.h */,
-				C20109451714642A009D4E58 /* KSADNPostParser.m */,
+				C20108271714616F009D4E58 /* MainMenu.xib */,
 				C20108461714628C009D4E58 /* Vendor */,
 				C20108191714616E009D4E58 /* Supporting Files */,
 			);

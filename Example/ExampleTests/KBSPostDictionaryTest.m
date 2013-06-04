@@ -184,4 +184,27 @@ describe(@"postDictionaryForText", ^{
   });
 });
 
+describe(@"URLs with string characters", ^{
+  it(@"should return the somewhat escaped version of the URL", ^{
+    NSString *post = @"A string with a weird url to [wikipedia](http://en.wikipedia.org/wiki/4′33″) foo";
+    NSString *escapedURL = @"http://en.wikipedia.org/wiki/4%E2%80%B233%E2%80%B3";
+    
+    [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+      expect(dictionary).notTo.equal(nil);
+      expect(error).to.equal(nil);
+
+      NSDictionary *entities = [dictionary valueForKey:ENTITIES_KEY];
+      expect(entities.count).to.equal(1);
+
+      NSArray *links = [entities valueForKey:LINKS_KEY];
+      expect(links.count).to.equal(1);
+
+      NSDictionary *link = [links objectAtIndex:0];
+      NSString *url = [link valueForKey:URL_KEY];
+      
+      expect(url).to.equal(escapedURL);
+    }];
+  });
+});
+
 SpecEnd

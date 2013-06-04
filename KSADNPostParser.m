@@ -174,9 +174,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
 - (NSDictionary *)linkDictionaryWithPosition:(NSUInteger)position length:(NSUInteger)length andURL:(NSString *)url
 {
-  return @{POSITION_KEY: [NSNumber numberWithUnsignedInteger:position],
-           LENGTH_KEY: [NSNumber numberWithUnsignedInteger:length],
-           URL_KEY: url};
+  return @{POSITION_KEY: [NSNumber numberWithUnsignedInteger:position], LENGTH_KEY: [NSNumber numberWithUnsignedInteger:length], URL_KEY: [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};
 }
 
 - (NSUInteger)postLengthForText:(NSString *)text

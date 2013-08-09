@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     NSUInteger numberOfMatches  = [self numberOfMarkdownURLsInString:postText];
     NSMutableArray *titleRanges = [NSMutableArray array];
     
-    for (NSInteger i = 0; i < numberOfMatches; i++) {
+    for (NSUInteger i = 0; i < numberOfMatches; i++) {
       @autoreleasepool {
         NSValue *value = [self rangeOfFirstMarkdownString:postText];
         if (!value) {

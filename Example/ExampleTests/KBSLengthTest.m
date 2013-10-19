@@ -20,6 +20,21 @@ describe(@"postLengthForText", ^{
         NSString *post = @"This is a post";
         expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(14);
     });
+    
+    it(@"should return the correct length for posts with emoji", ^{
+        NSString *post = @"😄";
+        expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(1);
+        
+        post = @"😄 abc 😄 def";
+        expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(11);
+        
+        post = @"abc 😄 def [😄](https://github.com)";
+        expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(11);
+        
+        post = @"abc 😄 def [hij](https://github.com)";
+        expect([[KSADNPostParser shared] postLengthForText:post]).to.equal(13);
+    });
+    
 });
 
 SpecEnd

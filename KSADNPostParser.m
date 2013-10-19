@@ -180,7 +180,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 - (NSUInteger)postLengthForText:(NSString *)text
 {
   if (![self containsMarkdownURL:text]) {
-    return [text length];
+    return [self emojiLengthForText:text];
   }
   
   __block NSDictionary *returnDictionary = nil;
@@ -190,10 +190,20 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
   
   NSString *returnText = [returnDictionary valueForKey:TEXT_KEY];
   if (returnText) {
-    return [returnText length];
+    return [self emojiLengthForText:returnText];
   } else {
-    return [text length];
+    return [self emojiLengthForText:text];
   }
+}
+
+- (NSUInteger)emojiLengthForText:(NSString *)text
+{
+  __block NSUInteger length = text.length;
+  [text enumerateSubstringsInRange:NSMakeRange(0, length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+    length -= substring.length - 1;
+  }];
+  
+  return length;
 }
 
 - (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown

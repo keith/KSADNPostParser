@@ -152,7 +152,9 @@
 				C20108111714616E009D4E58 /* Frameworks */,
 				C20108101714616E009D4E58 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		C20108101714616E009D4E58 /* Products */ = {
 			isa = PBXGroup;

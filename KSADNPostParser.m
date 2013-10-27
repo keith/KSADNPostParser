@@ -73,11 +73,11 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
 - (void)postDictionaryForText:(NSString *)text withBlock:(void(^)(NSDictionary *dictionary, NSError *error))block
 {
+  NSParameterAssert(text);
+  NSParameterAssert(block);
+  
   if (text.length < 1) {
-    if (block) {
-      block(nil, nil);
-    }
-    
+    block(nil, nil);
     return;
   }
   
@@ -130,9 +130,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     if (errorText.length > 0) {
       NSString *errorTitle = NSLocalizedString(@"Invalid inline URL", nil);
       NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidMarkdown userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
-      if (block) {
         block(nil, error);
-      }
       
       return;
     }
@@ -167,9 +165,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     [dictionary setValue:@{LINKS_KEY: links} forKey:ENTITIES_KEY];
   }
   
-  if (block) {
-    block(dictionary, nil);
-  }
+  block(dictionary, nil);
 }
 
 - (NSDictionary *)linkDictionaryWithPosition:(NSUInteger)position length:(NSUInteger)length andURL:(NSString *)url
@@ -198,9 +194,9 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
 - (NSUInteger)emojiLengthForText:(NSString *)text
 {
-  __block NSUInteger length = text.length;
-  [text enumerateSubstringsInRange:NSMakeRange(0, length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-    length -= substring.length - 1;
+  __block NSUInteger length = 0;
+  [text enumerateSubstringsInRange:NSMakeRange(0, text.length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+    length++;
   }];
   
   return length;

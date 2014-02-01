@@ -13,10 +13,10 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-  NSString *post = @"[wikipedia](sometext) abc [stuff](invalid)";
-  [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
-    [[NSAlert alertWithError:error] runModal];
-  }];
+    NSString *post = @"[wikipedia](sometext) abc [stuff](invalid)";
+    [[KSADNPostParser shared] postDictionaryForText:post withBlock:^(NSDictionary *dictionary, NSError *error) {
+        [[NSAlert alertWithError:error] runModal];
+    }];
 }
 
 @end

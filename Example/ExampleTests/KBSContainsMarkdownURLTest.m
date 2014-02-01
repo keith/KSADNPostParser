@@ -54,7 +54,7 @@ describe(@"containsMarkdownURL", ^{
         
         post = @"[ke#ith](http://google.com)";
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
-
+        
         post = @"[ke.th](http://google.com)";
         expect([[KSADNPostParser shared] containsMarkdownURL:post]).to.equal(false);
     });

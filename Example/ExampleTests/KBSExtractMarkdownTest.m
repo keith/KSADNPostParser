@@ -28,7 +28,7 @@ describe(@"extractURLandTitleFromMarkdownString", ^{
         expect(returnArray[0]).to.equal(@"title");
         expect(returnArray[1]).to.equal(@"url");
     });
-
+    
     it(@"should return the correct title and URL even with weird markdown", ^{
         NSString *title = @"Wikipedia [URL";
         NSString *url   = @"http://wikipedia.org/wiki/Monad_(functional_programming)";

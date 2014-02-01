@@ -14,16 +14,16 @@
 
  From: http://stackoverflow.com/questions/9268407/how-to-convert-markdown-style-links-using-regex
 
- \[         # Literal opening bracket
- (        # Capture what we find in here
- [^\]]+ # One or more characters other than close bracket or a username or hashtag
- )        # Stop capturing
- \]         # Literal closing bracket
- \(         # Literal opening parenthesis
- (        # Capture what we find in here
- \S+(?=\))  # Find as many non-whitespace-characters but ensure that there is a ) afterwards
- )        # Stop capturing
- \)         # Literal closing parenthesis
+ \[        # Literal opening bracket
+ (         # Capture what we find in here
+ [^\]]+    # One or more characters other than close bracket or a username or hashtag
+ )         # Stop capturing
+ \]        # Literal closing bracket
+ \(        # Literal opening parenthesis
+ (         # Capture what we find in here
+ \S+(?=\)) # Find as many non-whitespace-characters but ensure that there is a ) afterwards
+ )         # Stop capturing
+ \)        # Literal closing parenthesis
 
  */
 
@@ -44,8 +44,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
 @implementation KSADNPostParser
 
-+ (KSADNPostParser *)shared
-{
++ (KSADNPostParser *)shared {
     static KSADNPostParser *shared = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -55,8 +54,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     return shared;
 }
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (!self) {
         return nil;
@@ -71,119 +69,112 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 
 #pragma mark
 
-- (void)postDictionaryForText:(NSString *)text withBlock:(void(^)(NSDictionary *dictionary, NSError *error))block
-{
+- (NSDictionary *)postDictionaryForText:(NSString *)text error:(NSError **)error {
     NSParameterAssert(text);
-    NSParameterAssert(block);
 
     if (text.length < 1) {
-        block(nil, nil);
-        return;
+        return nil;
     }
 
     NSString *postText = [text copy];
     NSMutableArray *links = [NSMutableArray array];
     NSString *errorText = @"";
 
-    if ([self containsMarkdownURL:postText]) {
-        BOOL hasTitleError = false;
-        NSUInteger numberOfMatches  = [self numberOfMarkdownURLsInString:postText];
-        NSMutableArray *titleRanges = [NSMutableArray array];
-
-        for (NSUInteger i = 0; i < numberOfMatches; i++) {
-            @autoreleasepool {
-                NSValue *value = [self rangeOfFirstMarkdownString:postText];
-                if (!value) {
-                    continue;
-                }
-
-                NSRange range = [value rangeValue];
-                NSString *markdownString = [postText substringWithRange:range];
-                NSArray *results = [self extractURLandTitleFromMarkdownString:markdownString];
-                if (results.count != 2) {
-                    NSLog(@"Bad extraction return: %@", results);
-                    continue;
-                }
-
-                NSString *title = results[0];
-                NSString *urlString = results[1];
-                NSUInteger matches = [self.dataDetector numberOfMatchesInString:urlString options:0 range:NSMakeRange(0, [urlString length])];
-                if (matches < 1) {
-                    // Handle error
-                    errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
-                }
-
-                if (!hasTitleError && [title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
-                    errorText = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"Usernames and hashtags are not allowed in the title", nil), errorText];
-                    hasTitleError = true;
-                }
-
-                postText = [postText stringByReplacingCharactersInRange:range withString:title];
-                NSRange titleRange = NSMakeRange(range.location, title.length);
-                [titleRanges addObject:[NSValue valueWithRange:titleRange]];
-
-                NSDictionary *linkDictionary = [self linkDictionaryWithPosition:titleRange.location length:titleRange.length andURL:urlString];
-                [links addObject:linkDictionary];
-            }
-        }
-
-        if (errorText.length > 0) {
-            NSString *errorTitle = NSLocalizedString(@"Invalid inline URL", nil);
-            NSError *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidMarkdown userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
-            block(nil, error);
-
-            return;
-        }
-
-        NSArray *matches = [self.dataDetector matchesInString:postText options:0 range:NSMakeRange(0, [postText length])];
-        for (NSTextCheckingResult *result in matches) {
-            NSRange linkRange = result.range;
-            BOOL overlaps = false;
-
-            for (NSValue *value in titleRanges) {
-                NSRange aTitleRange  = [value rangeValue];
-                NSRange intersection = NSIntersectionRange(linkRange, aTitleRange);
-                if (intersection.length > 0) {
-                    overlaps = true;
-                    break;
-                }
-            }
-
-            if (overlaps) {
-                continue;
-            }
-
-            NSString *urlString = [postText substringWithRange:linkRange];
-            [links addObject:[self linkDictionaryWithPosition:linkRange.location length:linkRange.length andURL:urlString]];
-        }
+    NSUInteger numberOfLinks = [self numberOfMarkdownURLsInString:postText];
+    if (numberOfLinks < 1) {
+        return [self dictionaryForText:postText links:nil];
     }
 
+    BOOL hasTitleError = false;
+    NSMutableArray *titleRanges = [NSMutableArray array];
+
+    for (NSUInteger i = 0; i < numberOfLinks; i++) {
+        NSValue *value = [self rangeOfFirstMarkdownString:postText];
+        if (!value) {
+            continue;
+        }
+
+        NSRange range = [value rangeValue];
+        NSString *markdownString = [postText substringWithRange:range];
+        NSArray *results = [self extractURLandTitleFromMarkdownString:markdownString];
+        if (!results) {
+            NSLog(@"Bad extraction return: %@", results);
+            continue;
+        }
+
+        NSString *title = results[0];
+        NSString *urlString = results[1];
+        NSUInteger matches = [self.dataDetector numberOfMatchesInString:urlString options:0 range:NSMakeRange(0, [urlString length])];
+        if (matches < 1) {
+            errorText = [errorText stringByAppendingFormat:@"'%@' %@\n", urlString, NSLocalizedString(@"is an invalid URL", nil)];
+        }
+
+        if (!hasTitleError && [title rangeOfCharacterFromSet:self.invalidCharacters].location != NSNotFound) {
+            errorText = [NSString stringWithFormat:@"%@\n%@", NSLocalizedString(@"Usernames and hashtags are not allowed in the title", nil), errorText];
+            hasTitleError = true;
+        }
+
+        postText = [postText stringByReplacingCharactersInRange:range withString:title];
+        NSRange titleRange = NSMakeRange(range.location, title.length);
+        [titleRanges addObject:[NSValue valueWithRange:titleRange]];
+        [links addObject:[self linkDictionaryWithRange:titleRange andURL:urlString]];
+    }
+
+    if (errorText.length > 0) {
+        if (error) {
+            NSString *errorTitle = NSLocalizedString(@"Invalid inline URL", nil);
+            *error = [NSError errorWithDomain:errorDomain code:KSADNInvalidMarkdown userInfo:@{NSLocalizedDescriptionKey: errorTitle, NSLocalizedRecoverySuggestionErrorKey: errorText}];
+        }
+
+        return nil;
+    }
+
+    NSArray *matches = [self.dataDetector matchesInString:postText options:0 range:NSMakeRange(0, [postText length])];
+    for (NSTextCheckingResult *result in matches) {
+        NSRange linkRange = result.range;
+        BOOL overlaps = false;
+
+        for (NSValue *value in titleRanges) {
+            NSRange aTitleRange  = [value rangeValue];
+            NSRange intersection = NSIntersectionRange(linkRange, aTitleRange);
+            if (intersection.length > 0) {
+                overlaps = true;
+                break;
+            }
+        }
+
+        if (overlaps) {
+            continue;
+        }
+
+        NSString *urlString = [postText substringWithRange:linkRange];
+        [links addObject:[self linkDictionaryWithRange:linkRange andURL:urlString]];
+    }
+
+    return [self dictionaryForText:postText links:links];
+}
+
+- (NSDictionary *)dictionaryForText:(NSString *)text links:(NSArray*)links {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [dictionary setValue:postText forKey:TEXT_KEY];
+    [dictionary setValue:text forKey:TEXT_KEY];
 
     if (links.count > 0) {
         [dictionary setValue:@{LINKS_KEY: links} forKey:ENTITIES_KEY];
     }
 
-    block(dictionary, nil);
+    return dictionary;
 }
 
-- (NSDictionary *)linkDictionaryWithPosition:(NSUInteger)position length:(NSUInteger)length andURL:(NSString *)url
-{
-    return @{POSITION_KEY: [NSNumber numberWithUnsignedInteger:position], LENGTH_KEY: [NSNumber numberWithUnsignedInteger:length], URL_KEY: [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};
+- (NSDictionary *)linkDictionaryWithRange:(NSRange)range andURL:(NSString *)url {
+    return @{POSITION_KEY: [NSNumber numberWithUnsignedInteger:range.location], LENGTH_KEY: [NSNumber numberWithUnsignedInteger:range.length], URL_KEY: [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};
 }
 
-- (NSUInteger)postLengthForText:(NSString *)text
-{
+- (NSUInteger)postLengthForText:(NSString *)text {
     if (![self containsMarkdownURL:text]) {
         return [self emojiLengthForText:text];
     }
 
-    __block NSDictionary *returnDictionary = nil;
-    [self postDictionaryForText:text withBlock:^(NSDictionary *dictionary, NSError *error) {
-        returnDictionary = dictionary;
-    }];
-
+    NSDictionary *returnDictionary = [self postDictionaryForText:text error:NULL];
     NSString *returnText = [returnDictionary valueForKey:TEXT_KEY];
     if (returnText) {
         return [self emojiLengthForText:returnText];
@@ -192,8 +183,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     }
 }
 
-- (NSUInteger)emojiLengthForText:(NSString *)text
-{
+- (NSUInteger)emojiLengthForText:(NSString *)text {
     __block NSUInteger length = 0;
     [text enumerateSubstringsInRange:NSMakeRange(0, text.length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
         length++;
@@ -202,13 +192,12 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     return length;
 }
 
-- (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown
-{
+- (NSArray *)extractURLandTitleFromMarkdownString:(NSString *)markdown {
     NSRange titleSectionRange = [markdown rangeOfString:titleRegex options:NSRegularExpressionSearch];
     NSRange urlSectionRange = [markdown rangeOfString:urlRegex options:NSRegularExpressionSearch];
 
     if (![self possibleValidString:markdown] || titleSectionRange.location == NSNotFound || urlSectionRange.location == NSNotFound) {
-        return @[];
+        return nil;
     }
 
     NSString *title     = [markdown substringWithRange:NSMakeRange(titleSectionRange.location + 1, titleSectionRange.length - 2)];
@@ -218,8 +207,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
 }
 
 // Loosely checks that the string is of the valid format [title](URL)
-- (BOOL)possibleValidString:(NSString *)text
-{
+- (BOOL)possibleValidString:(NSString *)text {
     text = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (![text hasPrefix:@"["] ||
         ![text hasSuffix:@")"] ||
@@ -232,18 +220,15 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     return true;
 }
 
-- (BOOL)containsMarkdownURL:(NSString *)text
-{
+- (BOOL)containsMarkdownURL:(NSString *)text {
     return [self numberOfMarkdownURLsInString:text] > 0;
 }
 
-- (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text
-{
+- (NSUInteger)numberOfMarkdownURLsInString:(NSString *)text {
     return [self.regex numberOfMatchesInString:text options:0 range:NSMakeRange(0, [text length])];
 }
 
-- (NSValue *)rangeOfFirstMarkdownString:(NSString *)text
-{
+- (NSValue *)rangeOfFirstMarkdownString:(NSString *)text {
     NSTextCheckingResult *match = [self.regex firstMatchInString:text options:0 range:NSMakeRange(0, [text length])];
     if (match) {
         return [NSValue valueWithRange:[match range]];
@@ -252,8 +237,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     return nil;
 }
 
-- (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text
-{
+- (NSArray *)rangesOfMarkdownURLStrings:(NSString *)text {
     NSMutableArray *ranges = [NSMutableArray array];
     NSArray *matches = [self.regex matchesInString:text options:0 range:NSMakeRange(0, [text length])];
     for (NSTextCheckingResult *result in matches)
@@ -264,8 +248,7 @@ typedef NS_ENUM(NSInteger, KSADNPostParserError) {
     return ranges;
 }
 
-- (NSString *)twitterTextFromString:(NSString *)text
-{
+- (NSString *)twitterTextFromString:(NSString *)text {
     if (![self containsMarkdownURL:text]) {
         return text;
     }
